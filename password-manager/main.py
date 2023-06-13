@@ -1,5 +1,7 @@
 from tkinter import *
 import math
+from tkinter import messagebox
+import json
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
@@ -9,10 +11,19 @@ def save():
     web_url = website_entry.get()
     username = username_entry.get()
     password = password_entry.get()
+    new_data = {
+        web_url: {
+            "email": username,
+            "password": password,
+        }
+    }
 
-    with open("data.txt", "a") as df:
-        df.write(f"{web_url} | {username} | {password} |\n ")
-
+    if len(web_url) == 0 or len(password) == 0:
+        messagebox.showinfo(title="Warning", message="Please fill all details.")
+    else:
+        with open("password-manager/data.json", "w") as df:
+            json.dump(new_data, df, indent=4)
+            
 # ---------------------------- UI SETUP ------------------------------- #
 
 window = Tk()
